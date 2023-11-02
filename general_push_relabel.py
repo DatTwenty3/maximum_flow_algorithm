@@ -96,7 +96,7 @@ def read_flow_network_from_file(file_path):
         return None
 
 # Example usage:
-file_path = 'data/100_100.txt'
+file_path = 'data/1000_1000.txt'
 g = read_flow_network_from_file(file_path)
 
 if g is not None:

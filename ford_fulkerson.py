@@ -1,49 +1,64 @@
-import numpy as np
+from collections import defaultdict
 import time
 
-def read_input_file(file_path):
-    with open(file_path, 'r') as file:
+class Graph:
+
+    def __init__(self, graph):
+        self.graph = graph  # residual graph
+        self.ROW = len(graph)
+
+    def BFS(self, s, t, parent):
+        visited = [False] * (self.ROW)
+        queue = []
+        queue.append(s)
+        visited[s] = True
+        while queue:
+            u = queue.pop(0)
+            for ind, val in enumerate(self.graph[u]):
+                if visited[ind] == False and val > 0:
+                    queue.append(ind)
+                    visited[ind] = True
+                    parent[ind] = u
+                    if ind == t:
+                        return True
+        return False
+
+    def FordFulkerson(self, source, sink):
+        parent = [-1] * (self.ROW)
+        max_flow = 0
+        while self.BFS(source, sink, parent):
+            path_flow = float("Inf")
+            s = sink
+            while (s != source):
+                path_flow = min(path_flow, self.graph[parent[s]][s])
+                s = parent[s]
+            max_flow += path_flow
+            v = sink
+            while (v != source):
+                u = parent[v]
+                self.graph[u][v] -= path_flow
+                self.graph[v][u] += path_flow
+                v = parent[v]
+        return max_flow
+
+# Read input from a text file
+def read_input(filename):
+    with open(filename, 'r') as file:
         lines = file.readlines()
-        graph = [list(map(int, line.split())) for line in lines]
+    V = len(lines)
+    graph = []
+    for line in lines:
+        row = list(map(int, line.split()))
+        graph.append(row)
     return graph
 
-def ford_fulkerson(graph, source, sink):
-    def dfs(graph, node, path, visited):
-        if node == sink:
-            return path
-        for next_node, capacity in enumerate(graph[node]):
-            if visited[next_node] or capacity <= 0:
-                continue
-            visited[next_node] = True
-            new_path = path + [(node, next_node)]
-            result = dfs(graph, next_node, new_path, visited)
-            if result is not None:
-                return result
-        return None
-
-    max_flow = 0
-    while True:
-        visited = [False] * len(graph)
-        path = dfs(graph, source, [], visited)
-        if path is None:
-            break
-        min_capacity = min(graph[u][v] for u, v in path)
-        max_flow += min_capacity
-        for u, v in path:
-            graph[u][v] -= min_capacity
-            graph[v][u] += min_capacity
-
-    return max_flow
-
+# Usage
 if __name__ == "__main__":
-    input_file = "data/6_6.txt"
-    graph = read_input_file(input_file)
-    source = 0  # Điểm bắt đầu
-    sink = 5   # Điểm kết thúc
-
+    graph_data = read_input("data/1000_1000.txt")
+    g = Graph(graph_data)
+    source = 0
+    sink = 999
     start_time = time.time()
-    max_flow = ford_fulkerson(graph, source, sink)
+    print(f"Maximum Flow of Ford-Fulkerson Algorithm:", g.FordFulkerson(source, sink))
     end_time = time.time()
-
-    print(f"Maximum Flow of Ford-Fulkerson Algorithm: {max_flow}")
     print(f"Execution Time: {end_time - start_time} seconds")

@@ -76,8 +76,8 @@ def read_input(filename):
 
 # Usage
 if __name__ == "__main__":
-    g = read_input("data/6_6.txt")
+    g = read_input("data/1000_1000.txt")
     start_time = time.time()
-    print(f"Maximum Flow of Dinic’s Algorithm:", g.DinicMaxflow(0, 5))
+    print(f"Maximum Flow of Dinic’s Algorithm:", g.DinicMaxflow(0, 999))
     end_time = time.time()
     print(f"Execution Time: {end_time - start_time} seconds")
