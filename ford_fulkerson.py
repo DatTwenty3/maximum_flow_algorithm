@@ -1,5 +1,9 @@
-from collections import defaultdict
 import time
+
+#Config parametter at here!
+data_path = 'data/1000_1000.txt'
+source = 0
+sink = 999
 
 class Graph:
 
@@ -54,10 +58,8 @@ def read_input(filename):
 
 # Usage
 if __name__ == "__main__":
-    graph_data = read_input("data/1000_1000.txt")
+    graph_data = read_input(data_path)
     g = Graph(graph_data)
-    source = 0
-    sink = 999
     start_time = time.time()
     print(f"Maximum Flow of Ford-Fulkerson Algorithm:", g.FordFulkerson(source, sink))
     end_time = time.time()

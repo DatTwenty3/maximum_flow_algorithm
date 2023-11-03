@@ -1,4 +1,10 @@
 import time
+
+#Config parametter at here!
+data_path = 'data/1000_1000.txt'
+source = 0
+sink = 999
+
 class Edge:
     def __init__(self, v, flow, C, rev):
         self.v = v
@@ -76,8 +82,8 @@ def read_input(filename):
 
 # Usage
 if __name__ == "__main__":
-    g = read_input("data/1000_1000.txt")
+    g = read_input(data_path)
     start_time = time.time()
-    print(f"Maximum Flow of Dinic’s Algorithm:", g.DinicMaxflow(0, 999))
+    print(f"Maximum Flow of Dinic’s Algorithm:", g.DinicMaxflow(source, sink))
     end_time = time.time()
     print(f"Execution Time: {end_time - start_time} seconds")

@@ -1,4 +1,11 @@
 import time
+
+#Config parametter at here!
+data_path = 'data/6_6.txt'
+#source = 0
+#sink = 99
+
+
 class Edge:
     def __init__(self, flow, capacity, u, v):
         self.flow = flow
@@ -96,7 +103,7 @@ def read_flow_network_from_file(file_path):
         return None
 
 # Example usage:
-file_path = 'data/1000_1000.txt'
+file_path = data_path
 g = read_flow_network_from_file(file_path)
 
 if g is not None:
